@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const { Pool } = require('pg');
@@ -30,10 +31,10 @@ function getPerson(req, res) {
 
 function getPersonFromDB(id, callback) {
    console.log("Getting person from DB with id: " + id);
-   const sql = "SELECT * FROM person WHERE id = $1::int";
+   const sql = 'SELECT id, first_name, last_name, birth FROM person WHERE id = $1';
    const stuff = [id];
 
-   pool.query(sql, params, function(err, result) {
+   pool.query(sql, stuff, function(err, result) {
       if (err) {
          console.log("Error in query: ")
          console.log(err);
