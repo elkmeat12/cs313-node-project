@@ -18,6 +18,7 @@ app.listen(app.get('port'), function() {
 
 function getPerson(req, res) {
    const id = req.query.id;
+   console.log("Requested id:" + id);
 
    getPersonFromDB(id, function(error, result) {
       if (error || result == null || result.length != 1) {
@@ -31,7 +32,7 @@ function getPerson(req, res) {
 
 function getPersonFromDB(id, callback) {
    console.log("Getting person from DB with id: " + id);
-   const sql = 'SELECT id, first_name, last_name, birth FROM person WHERE id = $1';
+   const sql = "SELECT id, first, last, birth FROM person WHERE id = $1";
    const stuff = [id];
 
    pool.query(sql, stuff, function(err, result) {
