@@ -33,7 +33,7 @@ function getPerson(req, res) {
 function getPersonFromDB(id, callback) {
    console.log("Getting person from DB with id: " + id);
    var sql = "SELECT id, first, last, birth FROM person WHERE id = $1::int;";
-   var stuff = [1];
+   var stuff = [id];
    console.log(stuff);
    pool.query(sql, stuff, function(err, result) {
       if (err) {
