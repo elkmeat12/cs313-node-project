@@ -11,6 +11,9 @@ const pool = new Pool({connectionString: connectionString});
 app.set('port', (process.env.PORT || 6789));
 app.use(express.static(__dirname + '/public'));
 app.get('/getPerson', getPerson);
+app.get('/', function(req, res) {
+   res.sendFile('')
+})
 
 app.listen(app.get('port'), function() {
    console.log('Node app is running on port', app.get('port'));
