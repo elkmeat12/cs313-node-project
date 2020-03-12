@@ -1,5 +1,5 @@
-require('dotenv').config();
-const express = require('express')
+require('./node_modules/dotenv').config();
+const express = require('./node_modules/express')
 var app = express()
 
 app.set('port', process.env.PORT)
