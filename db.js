@@ -1,4 +1,4 @@
-require('dotenv/types').config();
+require('./node_modules/dotenv').config();
 
 // DB Connection
 const { Pool } = require('pg');
