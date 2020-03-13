@@ -1,12 +1,18 @@
-require('./node_modules/dotenv').config();
 const express = require('./node_modules/express')
 var app = express()
 
-app.set('port', process.env.PORT)
+// Files
+var login = require('./login')
+var getFish = require('./getFish')
+
+app.set('port', process.env.PORT || 6789)
   .use(express.static(__dirname + "/project/public"))
   .set('views', __dirname + "/views")
   .set('view engine', 'ejs')
-  // send to postal form
+  .get('/fish', getFish.getUserFish)
+  // verify user
+//   .get('/login', login.getUser)
+  // send to login form
   .get('/', function(req, res) {
     res.sendFile('index.html', {root: __dirname + "/project/public"});
   })
