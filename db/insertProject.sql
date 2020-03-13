@@ -1,9 +1,12 @@
 -- ERASE ANY PREVIOUS DATE
-DELETE FROM project_user;
-DELETE FROM fish_species;
-DELETE FROM place;
-DELETE FROM user_catch;
 DELETE FROM record;
+DELETE FROM user_catch;
+DELETE FROM place;
+DELETE FROM fish_species;
+DELETE FROM project_user;
+
+-- ENABLE pgcrypto to encrypt passwords
+CREATE EXTENSION pgcrypto;
 
 -- RESET THE SEQUENCE 
 ALTER SEQUENCE project_user_id_seq RESTART WITH 1;
@@ -12,8 +15,15 @@ ALTER SEQUENCE place_id_seq RESTART WITH 1;
 ALTER SEQUENCE user_catch_id_seq RESTART WITH 1;
 
 -- ADD USERS TO ACCESS WEBSITE
-INSERT INTO project_user (first_name, username, password) VALUES ('Tyler','elk', 'pass1');
-INSERT INTO project_user (first_name, username, password) VALUES ('ta','ta_user', 'ta_pass');
+INSERT INTO project_user (first_name, username, password) 
+VALUES ('Tyler',
+        'elk', 
+        crypt('pass1', gen_salt('bf')));
+
+INSERT INTO project_user (first_name, username, password) 
+VALUES ('ta',
+        'ta_user', 
+        crypt('ta_pass', gen_salt('bf')));
 
 -- ADD FISH SPECIES
 INSERT INTO fish_species (species) 
