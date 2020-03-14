@@ -42,27 +42,59 @@ function getFishFromDB(id, callback) {
    });
 }
 
+// check for the user account after login
 const checkUser = (req, res) => {
    let username = req.body.username
    let password = req.body.password
 
-   const query = "SELECT password FROM project_user WHERE username = $1";
-   pool.query(query, [username], (error, results) => {
-      if (error) {
-         throw error;
-      }
-      else {
-         if (bcrypt.compareSync(password, results.rows[0].password)) {
-            req.session.username = req.body.username
-            req.session.login = true;
-            console.log("Login return " + req.session.username);
-            res.status(200).json({success:true})
+   console.log(username)
+   console.log(password)
+
+   const query = "SELECT * FROM project_user WHERE username = $1";
+
+   // if found in the database, send them to their profile
+   if (username && password) {
+      pool.query(query, [username], (error, results) => {
+         if (error) {
+            throw error;
+         } else {
+            if (bcrypt.compareSync(password, results.rows[0].password)) {
+               req.session.login = true;
+               req.session.username = username;
+               console.log("Login return " + req.session.username);
+               res.redirect('/fish?id=' + results.rows[0].id);
+            } else {
+               res.send('Wrong username or password');
+            }
          }
-         else {
-            res.status(200).json({success:false})
-         }
-      }
-   });
+         res.end();
+      });
+   } else {
+      res.send('Please enter username and password');
+      res.end();
+   }
+
+
+
+
+
+
+   // pool.query(query, [username], (error, results) => {
+   //    if (error) {
+   //       throw error;
+   //    }
+   //    else {
+   //       if (bcrypt.compareSync(password, results.rows[0].password)) {
+   //          req.session.username = req.body.username
+   //          req.session.login = true;
+   //          console.log("Login return " + req.session.username);
+   //          res.status(200).json({success:true})
+   //       }
+   //       else {
+   //          res.status(200).json({success:false})
+   //       }
+   //    }
+   // });
 }
 
 module.exports = {

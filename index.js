@@ -10,7 +10,8 @@ const { Pool } = require('pg');
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({connectionString: connectionString});
 
-// session.login = false;
+// ensure user is not logged in
+session.login = false;
 
 // Files
 var login = require('./login')
@@ -18,51 +19,32 @@ var db = require('./db')
 
 app.set('port', process.env.PORT || 6789)
   .use(express.static(__dirname + "/project/public"))
-  .set('views', __dirname + "/views")
+  .set('views', __dirname + "/project/views")
   .set('view engine', 'ejs')
-  .get('/fish', db.getUserFish)
+
+  // set up for session variables
   .use(session({
     secret: 'secret',
-    resave: true,
+    resave: false,
     saveUninitialized: true
   }))
+
   .use(bodyParser.urlencoded({extended:true}))
   .use(bodyParser.json())
-  // verify user
-//   .get('/login', login.getUser)
+
   // send to login form
   .get('/', function(req, res) {
     res.sendFile('index.html', {root: __dirname + "/project/public"});
   })
-  .post('/login', function(req,res) {
-    var username = req.body.username;
-    var password = req.body.password;
-    const query = 'SELECT password FROM project_user WHERE username = $1';
-    pool.query(query, [username], (error, results) => {
-      if (error) {
-        throw error;
-      }
-      else {
-        if (bcrypt.compareSync(password, results.rows[0].password)) {
-          req.session.username = req.body.username
-          req.session.loggedin = true;
-          console.log("Login Return " + req.session.username);
-          res.status(200).json({success:true})
-        }
-        else {
-          res.status(200).json({success:false})
-        }
-      }
-    })
+
+  // authenticate login
+  .post('/auth', db.checkUser, function(res) {
+    console.log("Login return " + res.success);
   })
-  .get('/home', function(req, res) {
-    if (req.session.loggedin) {
-      res.send('Welcom back, ' + req.session.username + '!');
-    } else {
-      res.send('Please login to view this page!');
-    }
-    res.end();
-  })
+
+  // get the user information from the database
+  .get('/fish', db.getUserFish)
+  
   .listen(app.get('port'), function() {
   	console.log('Listening on port: ' + app.get('port'));
   });
