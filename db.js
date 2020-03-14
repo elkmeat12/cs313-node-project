@@ -1,4 +1,5 @@
 require('./node_modules/dotenv').config();
+const bcrypt = require('./node_modules/bcrypt')
 
 // DB Connection
 const { Pool } = require('pg');
@@ -41,4 +42,30 @@ function getFishFromDB(id, callback) {
    });
 }
 
-module.exports = {getUserFish: getUserFish};
+const checkUser = (req, res) => {
+   let username = req.body.username
+   let password = req.body.password
+
+   const query = "SELECT password FROM project_user WHERE username = $1";
+   pool.query(query, [username], (error, results) => {
+      if (error) {
+         throw error;
+      }
+      else {
+         if (bcrypt.compareSync(password, results.rows[0].password)) {
+            req.session.username = req.body.username
+            req.session.login = true;
+            console.log("Login return " + req.session.username);
+            res.status(200).json({success:true})
+         }
+         else {
+            res.status(200).json({success:false})
+         }
+      }
+   });
+}
+
+module.exports = {
+   getUserFish,
+   checkUser
+};
