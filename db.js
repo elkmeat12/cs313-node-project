@@ -64,7 +64,7 @@ const checkUser = (req, res) => {
                console.log("Login return " + req.session.username);
                res.redirect('/fish?id=' + results.rows[0].id);
             } else {
-               res.send('Wrong username or password');
+               res.send('Wrong username or password ' + password);
             }
          }
          res.end();
