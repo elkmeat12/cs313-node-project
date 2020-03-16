@@ -25,6 +25,11 @@ VALUES ('ta',
         'ta_user', 
         crypt('ta_pass', gen_salt('bf')));
 
+INSERT INTO project_user (first_name, username, password) 
+VALUES ('Admin',
+        'admin', 
+        crypt('admin', gen_salt('bf')));
+
 -- ADD FISH SPECIES
 INSERT INTO fish_species (species) 
 VALUES ('Rainbow Trout'),

@@ -58,8 +58,8 @@ const checkUser = (req, res) => {
          if (error) {
             throw error;
          } else {
-            // if (bcrypt.compareSync(password, results.rows[0].password)) {
-            if (password === results.rows[0].password) {
+            if (bcrypt.compareSync(password, results.rows[0].password)) {
+            // if (password === results.rows[0].password) {
                req.session.login = true;
                req.session.username = username;
                console.log("Login return " + req.session.username);
