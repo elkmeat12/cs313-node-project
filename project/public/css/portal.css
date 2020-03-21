@@ -1,0 +1,105 @@
+display-flex {
+   display: flex;
+   display: -webkit-flex; }
+
+body {
+   font-size: 15px;
+   line-height: 1.8;
+   color: #fff;
+   background-image: url("../images/fish-bg.jpg");
+   /* filter: blur(8px);
+   -webkit-filter: blur(8px); */
+   background-repeat: no-repeat;
+   background-size: cover;
+   -moz-background-size: cover;
+   -webkit-background-size: cover;
+   -o-background-size: cover;
+   -ms-background-size: cover;
+   background-position: center center fixed;
+   font-weight: 400;
+   font-family: 'Roboto Slab';
+   margin: 0px;
+}
+
+h1 {
+   text-align: center;
+   padding-top: 15px;
+   font-family: Georgia, 'Times New Roman', Times, serif;
+   color: #747272;
+}
+
+img {
+   max-width: 100%;
+   height: auto; }
+
+.portal-main {
+   padding: 60px 0;
+   position: relative; 
+}
+ 
+.portal-container {
+   width: 90%;
+   min-height: 500px;
+   height: 90%;
+   padding-bottom: 5%;
+   background: #fff;
+   float: none;
+   margin: 0 auto;
+   opacity: 0.95;
+   border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+   -o-border-radius: 10px;
+   -ms-border-radius: 10px; 
+}
+
+.tb1 {
+   width: 70%;
+   margin: 0 auto;
+}
+
+.nav1 {
+   float: left; 
+   width: 15%;
+   margin-left: 50px;
+   margin-right: 50px;
+}
+
+.nav-pills > a{
+   color: #538f38!important;
+}
+
+.nav-pills > a:hover{
+   color: white!important;
+   background-color: rgb(65, 156, 85);
+}
+
+.nav-pills > a.active {
+   color: white!important;
+   background-color: rgba(73, 177, 95, 0.9)!important;
+}
+
+@media screen and (max-width: 1024px) {
+   .portal-container {
+     margin: 0 auto;
+     width: 90%; 
+     float: none;
+   } 
+
+   body {
+      background-size: auto;
+   }
+
+   .tb1 {
+      margin-left: 15%;
+      width: auto;
+   }
+}
+
+@media screen and (max-width: 768px) {
+   .portal-container {
+      /* width: calc( 100% - 200px); */
+      width: 90%;
+      float: none;
+      } 
+}

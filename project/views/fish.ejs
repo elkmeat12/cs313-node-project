@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/portal.css" type="text/css">
+   <script src="../../db.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <title>Personal Portal</title>
+
+   <!-- AJAX CODE  -->
+   <script type="text/javascript">
+      $(document).ready(function() {
+         $('#fish_btn').click(function() {
+            $('#content').html('<br><div class="table-responsive-md">'+
+                                 '<table class="table tb1">'+
+                                    '<tr>' +
+                                       '<th>Species</th>' +
+                                       '<th>Weight (lbs.)</th>' +
+                                       '<th>Length (in.)</th>' +
+                                       '<th>City</th>' +
+                                    '</tr>' +
+                                 '<% result.forEach(function(obj){ %>' +
+                                    '<tr>' +
+                                       '<td><%=obj.species%></td>' +
+                                       '<td><%=obj.weight%></td>' +
+                                       '<td><%=obj.length%></td>' +
+                                       '<td><%=obj.city%></td>' +
+                                    '</tr>' +
+                                 '<%})%>' +
+                                 '</table>' +
+                              '</div>');
+            return false;
+         });
+      });
+
+      function logout() {
+         var url = "/logout";
+         doAjax(url, (response) => {
+            refresh();
+         })
+      }
+
+      function doAjax(url, callback) {
+         let xhttp = new XMLHttpRequest();
+         xhttp = onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+               callback(this.responseText);
+            }
+         };
+         xhttp.open("GET", url, true);
+         xhttp.send();
+      }
+   </script>
+
+</head>
+<body>
+   <div class="portal-main">
+      <div class="portal-container">
+         <h1>Personal Catches</h1>
+         <!-- <nav class="nav flex-column nav-pills nav1">
+            <a class="nav-link active disabled" href="/fish">Recent Catches</a>
+            <a class="nav-link" href="#">Add a Fish</a>
+            <a class="nav-link" href="#">Delete a Fish</a>
+          </nav> -->
+         
+         <div id="ctr_btn" style="width: auto; text-align:center">
+            <button id="fish_btn" class="btn btn-dark">Get Fish</button>
+            <button id="add_btn" class="btn btn-dark">Add Fish</button>
+            <button id="delete_btn" class="btn btn-dark">Delete Fish</button>
+            <button id="logout_btn" class="btn btn-dark" onclick="logout()">Log Out</button>
+         </div>
+         <br>
+         <div id="content"></div>
+
+      </div>
+   </div>
+</body>
+</html>
