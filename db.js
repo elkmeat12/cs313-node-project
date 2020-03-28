@@ -115,9 +115,23 @@ const getFish = (req, res) => {
    })().catch(e => console.log(e.stack))
 };
 
+// If a user is currently stored on the session, removes it
+function handleLogout(req, res) {
+   // let result = {success: false};
+	// We should do better error checking here to make sure the parameters are present
+	if (req.session.user) {
+      req.session.destroy();
+      // result = {success: true};
+      console.log("Session destroyed.");
+	}
+   // res.json(result);
+	res.redirect('/');
+}
+
 
 module.exports = {
    getUserFish,
    getFish,
-   checkUser
+   checkUser,
+   handleLogout
 };

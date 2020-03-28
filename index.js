@@ -43,21 +43,23 @@ app.set('port', process.env.PORT || 6789)
   .post('/auth', db.checkUser, function(res) {
     console.log("Login return " + res.success);
   })
+
+  .post('/logout', db.handleLogout)
   
   // get the user information from the database
   .get('/fish', db.getUserFish)
 
-  .get('/logout', (req, res) => {
-    if (req.session.username) {
-      req.session.destroy();
-      res.status(200).json({success:true});
-      res.redirect('/');
-    }
-    else {
-      res.status(200).json({success:false});
-      res.redirect('/');
-    }
-  })
+  // .get('/logout', (req, res) => {
+  //   if (req.session.username) {
+  //     req.session.destroy();
+  //     res.status(200).json({success:true});
+  //     res.redirect('/');
+  //   }
+  //   else {
+  //     res.status(200).json({success:false});
+  //     res.redirect('/');
+  //   }
+  // })
 
   // used to access the week 11 team activity
   .get('/movie', function(req, res) {

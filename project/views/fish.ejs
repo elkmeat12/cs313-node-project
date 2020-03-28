@@ -33,13 +33,51 @@
                               '</div>');
             return false;
          });
+         $('#add_btn').click(function() {
+            $('#content').load("form.html");
+            return false;
+         });
+         $('#delete_btn').click(function() {
+            $('#content').html('<br><div class="table-responsive-md">'+
+                                 '<table class="table tb1">'+
+                                    '<tr>' +
+                                       '<th>Delete?</th>' +
+                                       '<th>Species</th>' +
+                                       '<th>Weight (lbs.)</th>' +
+                                       '<th>Length (in.)</th>' +
+                                       '<th>City</th>' +
+                                    '</tr>' +
+                                    '<% result.forEach(function(obj){ %>' +
+                                    '<tr>' +
+                                       '<td><input type="checkbox" name="name" />&nbsp;</td>' +
+                                       '<td><%=obj.species%></td>' +
+                                       '<td><%=obj.weight%></td>' +
+                                       '<td><%=obj.length%></td>' +
+                                       '<td><%=obj.city%></td>' +
+                                    '</tr>' +
+                                    '<%})%>' +
+                                 '</table>' +
+                              '</div>' + 
+                              '<div class="form-submit s1">' +
+                                 '<input type="submit" name="submit" id="submit" class="submit" value="Delete Fish" />' +
+                              '</div>');
+            return false;
+         });
+         $('#logout_btn').click(function() {
+            // somehow destroy session
+            window.open('/', '_self');
+            return false;
+         });
       });
 
       function logout() {
-         var url = "/logout";
-         doAjax(url, (response) => {
-            refresh();
-         })
+         $.post("/logout", function(result) {
+            if (result && result.success) {
+               alert("Logged out successfully.");
+            } else {
+               alert("Error logging out.");
+            }
+         });
       }
 
       function doAjax(url, callback) {
@@ -59,17 +97,12 @@
    <div class="portal-main">
       <div class="portal-container">
          <h1>Personal Catches</h1>
-         <!-- <nav class="nav flex-column nav-pills nav1">
-            <a class="nav-link active disabled" href="/fish">Recent Catches</a>
-            <a class="nav-link" href="#">Add a Fish</a>
-            <a class="nav-link" href="#">Delete a Fish</a>
-          </nav> -->
          
          <div id="ctr_btn" style="width: auto; text-align:center">
             <button id="fish_btn" class="btn btn-dark">Get Fish</button>
             <button id="add_btn" class="btn btn-dark">Add Fish</button>
             <button id="delete_btn" class="btn btn-dark">Delete Fish</button>
-            <button id="logout_btn" class="btn btn-dark" onclick="logout()">Log Out</button>
+            <button id="logout_btn" class="btn btn-dark">Log Out</button>
          </div>
          <br>
          <div id="content"></div>
